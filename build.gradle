@@ -2,24 +2,75 @@ buildscript {
     ext.kotlin_version = '1.2.21'
 
     repositories {
-        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
+plugins {
+    id 'jacoco'
+}
+
+apply plugin: 'org.jetbrains.kotlin.jvm'
+
+if (!JavaVersion.current().java8Compatible) {
+    throw new IllegalStateException("Must be built with Java 8 or higher")
+}
+
 group 'com.cluttered-cryptocurrency'
 version '0.1.0'
 
-apply plugin: 'kotlin'
+ext {
+    _gradle_version = '4.4.1'
+
+    slf4j_version = '1.7.25'
+    slf4j_okhttp_version = '1.0.1'
+
+    okhttp_version = '3.9.1'
+    retrofit_version = '2.3.0'
+    retrofit_log_version = '3.9.1'
+    rxkotlin_version = '2.1.0'
+
+    junit_version = '4.12'
+    assertj_version = '3.8.0'
+}
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    compile "org.slf4j:slf4j-api:$slf4j_version"
+    compile "com.github.devcsrj:slf4j-okhttp3-logging-interceptor:$slf4j_okhttp_version"
+
+    compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttp_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    compile "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+
+    testCompile "junit:junit:$junit_version"
+    testCompile "org.assertj:assertj-core:$assertj_version"
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
+jacocoTestReport {
+    dependsOn = tasks.withType(Test)
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
 
 compileKotlin {
@@ -27,4 +78,8 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = _gradle_version
 }
