@@ -1,5 +1,6 @@
 package com.cluttered.cryptocurrency.retrofit
 
+import com.cluttered.cryptocurrency.BinanceConstants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,7 +14,7 @@ object RetrofitFactory {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl("https://api.binance.com/")
+                .baseUrl(BASE_URL)
                 .build()
     }
 }
