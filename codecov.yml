@@ -1,0 +1,6 @@
+codecov:
+  branch: master
+
+ignore:
+  - "src/main/kotlin/com/cluttered/cryptocurrency/model"
+  - "src/main/kotlin/com/cluttered/cryptocurrency/examples"
