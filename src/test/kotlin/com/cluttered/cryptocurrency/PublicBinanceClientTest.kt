@@ -1,5 +1,6 @@
 package com.cluttered.cryptocurrency
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 
@@ -9,23 +10,21 @@ class PublicBinanceClientTest {
 
     @Test
     fun testPing() {
-        client.public.pingCompletable()
+        client.public.ping()
                 .test()
                 .assertComplete()
     }
 
-//    @Test
-//    fun testPing() {
-//        val testObserver = TestObserver<Response<Void>>()
-//
-//        client.public.ping().subscribe(testObserver)
-//
-//        testObserver.assertComplete()
-//        testObserver.assertValueCount(1)
-//
-//        assertThat(testObserver.values()[0].code()).isEqualTo(HTTP_OK)
-//    }
-//
+    @Test
+    fun testTime() {
+        val testObserver = client.public.time().test()
+
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0].serverTime).isNotNull()
+    }
+
 //    @Test
 //    fun testPingAsync() {
 //        val testObserver = TestObserver<Response<Void>>()
