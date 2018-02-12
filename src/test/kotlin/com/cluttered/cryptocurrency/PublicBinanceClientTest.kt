@@ -19,10 +19,25 @@ class PublicBinanceClientTest {
     fun testTime() {
         val testObserver = client.public.time().test()
 
+        println(testObserver.values()[0])
+
         testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
         assertThat(testObserver.values()[0].serverTime).isNotNull()
+    }
+
+    @Test
+    fun testExchangeInfo() {
+        val testObserver = client.public.exchangeInfo().test()
+
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        val result = testObserver.values()
+        println(result[0])
+
+        assertThat(result[0].timezone).isEqualTo("UTC")
     }
 
 //    @Test

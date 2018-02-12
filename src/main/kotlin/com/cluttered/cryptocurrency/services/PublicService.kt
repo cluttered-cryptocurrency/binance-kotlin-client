@@ -1,5 +1,6 @@
 package com.cluttered.cryptocurrency.services
 
+import com.cluttered.cryptocurrency.model.ExchangeInfo
 import com.cluttered.cryptocurrency.model.ServerTime
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -16,4 +17,7 @@ interface PublicService {
 
     @GET("$API_V1/time")
     fun time(): Observable<ServerTime>
+
+    @GET("$API_V1/exchangeInfo")
+    fun exchangeInfo(): Observable<ExchangeInfo>
 }
