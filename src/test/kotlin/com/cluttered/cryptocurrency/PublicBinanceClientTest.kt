@@ -40,6 +40,32 @@ class PublicBinanceClientTest {
         assertThat(result[0].timezone).isEqualTo("UTC")
     }
 
+    @Test
+    fun testDepth() {
+        val testObserver = client.public.depth("ETHBTC").test()
+
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        val result = testObserver.values()
+        println(result[0])
+
+        assertThat(result[0].lastUpdateId.toLong()).isGreaterThan(0)
+    }
+
+    @Test
+    fun testDepthLimit() {
+        val testObserver = client.public.depth("ETHBTC", 5).test()
+
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        val result = testObserver.values()
+        println(result[0])
+
+        assertThat(result[0].lastUpdateId.toLong()).isGreaterThan(0)
+    }
+
 //    @Test
 //    fun testPingAsync() {
 //        val testObserver = TestObserver<Response<Void>>()

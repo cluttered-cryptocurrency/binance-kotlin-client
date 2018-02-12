@@ -1,10 +1,12 @@
 package com.cluttered.cryptocurrency.services
 
+import com.cluttered.cryptocurrency.model.Depth
 import com.cluttered.cryptocurrency.model.ExchangeInfo
 import com.cluttered.cryptocurrency.model.ServerTime
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface PublicService {
 
@@ -20,4 +22,7 @@ interface PublicService {
 
     @GET("$API_V1/exchangeInfo")
     fun exchangeInfo(): Observable<ExchangeInfo>
+
+    @GET("$API_V1/depth")
+    fun depth(@Query("symbol") symbol: String, @Query("limit") limit: Int = 100): Observable<Depth>
 }
