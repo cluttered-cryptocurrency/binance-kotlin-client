@@ -65,20 +65,4 @@ class PublicBinanceClientTest {
 
         assertThat(result[0].lastUpdateId.toLong()).isGreaterThan(0)
     }
-
-//    @Test
-//    fun testPingAsync() {
-//        val testObserver = TestObserver<Response<Void>>()
-//
-//        client.public.ping()
-//                .subscribeOn(Schedulers.newThread())
-//                .subscribe(testObserver)
-//
-//        testObserver.await(2, SECONDS)
-//
-//        testObserver.assertComplete()
-//        testObserver.assertValueCount(1)
-//
-//        assertThat(testObserver.values()[0].code()).isEqualTo(HTTP_OK)
-//    }
 }
