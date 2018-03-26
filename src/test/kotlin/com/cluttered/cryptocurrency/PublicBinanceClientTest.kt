@@ -3,7 +3,6 @@ package com.cluttered.cryptocurrency
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-
 class PublicBinanceClientTest {
 
     private val client = PublicBinanceClient()
@@ -64,5 +63,31 @@ class PublicBinanceClientTest {
         println(result[0])
 
         assertThat(result[0].lastUpdateId.toLong()).isGreaterThan(0)
+    }
+
+    @Test
+    fun testTrades() {
+        val testObserver = client.public.trades("ETHBTC").test()
+
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        val result = testObserver.values()
+        println(result[0])
+
+        assertThat(result[0].size).isEqualTo(500)
+    }
+
+    @Test
+    fun testTradesLimit() {
+        val testObserver = client.public.trades("ETHBTC", 25).test()
+
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        val result = testObserver.values()
+        println(result[0])
+
+        assertThat(result[0].size).isEqualTo(25)
     }
 }
