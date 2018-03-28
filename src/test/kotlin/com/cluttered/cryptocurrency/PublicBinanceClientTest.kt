@@ -94,7 +94,7 @@ class PublicBinanceClientTest {
 
     @Test
     fun testDepth() {
-        val path = "/api/v1/depth?symbol=ETHBTC&limit=100"
+        val path = "/api/v1/depth?symbol=ETHBTC"
 
         mockServer.enqueue(
                 MockResponse()

@@ -25,7 +25,7 @@ interface PublicService {
     fun exchangeInfo(): Observable<ExchangeInfo>
 
     @GET("$API_V1/depth")
-    fun depth(@Query("symbol") symbol: String, @Query("limit") limit: Int = 100): Observable<Depth>
+    fun depth(@Query("symbol") symbol: String, @Query("limit") limit: Int? = null): Observable<Depth>
 
     @GET("$API_V1/trades")
     fun trades(@Query("symbol") symbol: String, @Query("limit") limit: Int = 500): Observable<MutableList<Trade>>
