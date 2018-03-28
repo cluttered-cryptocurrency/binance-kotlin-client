@@ -91,4 +91,25 @@ class PublicBinanceClientTest {
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
     }
+
+    @Test
+    fun testDepth() {
+        val path = "/api/v1/depth?symbol=ETHBTC&limit=100"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/depth.json")))
+
+        val testObserver = publicBinanceClient.public.depth("ETHBTC").test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0].lastUpdateId).isEqualTo(1027024)
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
 }
