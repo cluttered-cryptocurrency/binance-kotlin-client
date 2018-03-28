@@ -19,8 +19,8 @@ class PublicBinanceClientTest {
     fun setUp() {
         mockServer = MockWebServer()
         mockServer.start()
-        BinanceConstants.BASE_URL = mockServer.url("").toString()
 
+        BinanceConstants.BASE_URL = mockServer.url("").toString()
         publicBinanceClient = PublicBinanceClient()
     }
 
@@ -66,6 +66,27 @@ class PublicBinanceClientTest {
         testObserver.assertValueCount(1)
 
         assertThat(testObserver.values()[0].serverTime).isEqualTo(Instant.ofEpochMilli(1499827319559))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testExchangeInfo() {
+        val path = "/api/v1/exchangeInfo"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/exchangeInfo.json")))
+
+        val testObserver = publicBinanceClient.public.exchangeInfo().test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0].serverTime).isEqualTo(Instant.ofEpochMilli(1508631584636))
 
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
