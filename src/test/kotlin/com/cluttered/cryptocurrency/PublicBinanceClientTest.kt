@@ -1,93 +1,73 @@
 package com.cluttered.cryptocurrency
 
+import com.cluttered.cryptocurrency.TestHelpers.getJson
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
+import java.time.Instant
 
 class PublicBinanceClientTest {
 
-    private val client = PublicBinanceClient()
+    private lateinit var publicBinanceClient: PublicBinanceClient
+    private lateinit var mockServer: MockWebServer
+
+    @Before
+    @Throws
+    fun setUp() {
+        mockServer = MockWebServer()
+        mockServer.start()
+        BinanceConstants.BASE_URL = mockServer.url("").toString()
+
+        publicBinanceClient = PublicBinanceClient()
+    }
+
+    @After
+    @Throws
+    fun tearDown() {
+        mockServer.shutdown()
+    }
 
     @Test
     fun testPing() {
-        client.public.ping()
-                .test()
-                .assertComplete()
+        val path = "/api/v1/ping"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody("{}"))
+
+        val testObserver = publicBinanceClient.public.ping().test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(0)
+        testObserver.assertComplete()
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
     }
 
     @Test
     fun testTime() {
-        val testObserver = client.public.time().test()
+        val path = "/api/v1/time"
 
-        println(testObserver.values()[0])
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/time.json")))
 
-        testObserver.assertComplete()
+        val testObserver = publicBinanceClient.public.time().test()
+
+        testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
 
-        assertThat(testObserver.values()[0].serverTime).isNotNull()
-    }
+        assertThat(testObserver.values()[0].serverTime).isEqualTo(Instant.ofEpochMilli(1499827319559))
 
-    @Test
-    fun testExchangeInfo() {
-        val testObserver = client.public.exchangeInfo().test()
-
-        testObserver.assertComplete()
-        testObserver.assertValueCount(1)
-
-        val result = testObserver.values()
-        println(result[0])
-
-        assertThat(result[0].timezone).isEqualTo("UTC")
-    }
-
-    @Test
-    fun testDepth() {
-        val testObserver = client.public.depth("ETHBTC").test()
-
-        testObserver.assertComplete()
-        testObserver.assertValueCount(1)
-
-        val result = testObserver.values()
-        println(result[0])
-
-        assertThat(result[0].lastUpdateId.toLong()).isGreaterThan(0)
-    }
-
-    @Test
-    fun testDepthLimit() {
-        val testObserver = client.public.depth("ETHBTC", 5).test()
-
-        testObserver.assertComplete()
-        testObserver.assertValueCount(1)
-
-        val result = testObserver.values()
-        println(result[0])
-
-        assertThat(result[0].lastUpdateId.toLong()).isGreaterThan(0)
-    }
-
-    @Test
-    fun testTrades() {
-        val testObserver = client.public.trades("ETHBTC").test()
-
-        testObserver.assertComplete()
-        testObserver.assertValueCount(1)
-
-        val result = testObserver.values()
-        println(result[0])
-
-        assertThat(result[0].size).isEqualTo(500)
-    }
-
-    @Test
-    fun testTradesLimit() {
-        val testObserver = client.public.trades("ETHBTC", 25).test()
-
-        testObserver.assertComplete()
-        testObserver.assertValueCount(1)
-
-        val result = testObserver.values()
-        println(result[0])
-
-        assertThat(result[0].size).isEqualTo(25)
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
     }
 }

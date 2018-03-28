@@ -56,6 +56,7 @@ dependencies {
 
     testCompile "junit:junit:$junit_version"
     testCompile "org.assertj:assertj-core:$assertj_version"
+    testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
 }
 
 test {
