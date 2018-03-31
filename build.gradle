@@ -2,18 +2,15 @@ buildscript {
     ext.kotlin_version = '1.2.31'
 
     repositories {
-        maven { url "https://plugins.gradle.org/m2/" }
+        mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-plugins {
-    id 'jacoco'
-}
-
-apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'jacoco'
+apply plugin: 'kotlin'
 
 if (!JavaVersion.current().java8Compatible) {
     throw new IllegalStateException("Must be built with Java 8 or higher")
@@ -42,7 +39,7 @@ repositories {
 }
 
 dependencies {
-//    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     compile "org.slf4j:slf4j-api:$slf4j_version"
     compile "com.github.devcsrj:slf4j-okhttp3-logging-interceptor:$slf4j_okhttp_version"

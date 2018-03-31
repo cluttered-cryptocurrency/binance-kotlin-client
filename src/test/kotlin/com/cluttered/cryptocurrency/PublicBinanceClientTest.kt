@@ -7,8 +7,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import java.time.Instant
 
+@RunWith(JUnit4::class)
 class PublicBinanceClientTest {
 
     private lateinit var publicBinanceClient: PublicBinanceClient
