@@ -4,6 +4,7 @@ import com.cluttered.cryptocurrency.model.Depth
 import com.cluttered.cryptocurrency.model.ExchangeInfo
 import com.cluttered.cryptocurrency.model.ServerTime
 import com.cluttered.cryptocurrency.model.Trade
+import com.cluttered.cryptocurrency.model.enum.DepthLimit
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -25,7 +26,7 @@ interface PublicService {
     fun exchangeInfo(): Observable<ExchangeInfo>
 
     @GET("$API_V1/depth")
-    fun depth(@Query("symbol") symbol: String, @Query("limit") limit: Int? = null): Observable<Depth>
+    fun depth(@Query("symbol") symbol: String, @Query("limit") limit: DepthLimit? = null): Observable<Depth>
 
     @GET("$API_V1/trades")
     fun trades(@Query("symbol") symbol: String, @Query("limit") limit: Int = 500): Observable<MutableList<Trade>>

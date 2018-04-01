@@ -1,6 +1,7 @@
 package com.cluttered.cryptocurrency
 
 import com.cluttered.cryptocurrency.TestHelpers.getJson
+import com.cluttered.cryptocurrency.model.enum.DepthLimit.ONE_HUNDRED
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
@@ -126,7 +127,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/depth.json")))
 
-        val testObserver = publicBinanceClient.public.depth("ETHBTC", 100).test()
+        val testObserver = publicBinanceClient.public.depth("ETHBTC", ONE_HUNDRED).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
