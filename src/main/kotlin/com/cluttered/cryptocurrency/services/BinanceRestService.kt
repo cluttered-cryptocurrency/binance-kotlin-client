@@ -1,7 +1,8 @@
 package com.cluttered.cryptocurrency.services
 
 import com.cluttered.cryptocurrency.model.*
-import com.cluttered.cryptocurrency.model.enum.DepthLimit
+import com.cluttered.cryptocurrency.model.enum.ChartInterval
+import com.cluttered.cryptocurrency.model.enum.Limit
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -31,7 +32,7 @@ interface BinanceRestService {
     @GET("$API/$V1/depth")
     fun depth(
             @Query("symbol") symbol: String,
-            @Query("limit") limit: DepthLimit? = null)
+            @Query("limit") limit: Limit? = null)
             : Observable<Depth>
 
     @GET("$API/$V1/trades")
@@ -55,4 +56,13 @@ interface BinanceRestService {
             @Query("endTime") endTime: Long? = null,
             @Query("limit") limit: Long? = null)
             : Observable<MutableList<AggregateTrade>>
+
+    @GET("$API/$V1/klines")
+    fun candlesticks(
+            @Query("symbol") symbol: String,
+            @Query("interval") interval: ChartInterval,
+            @Query("limit") limit: Int? = null,
+            @Query("startTime") startTime: Long? = null,
+            @Query("endTime") endTime: Long? = null)
+            : Observable<MutableList<Candlestick>>
 }

@@ -2,5 +2,5 @@ package com.cluttered.cryptocurrency
 
 object BinanceConstants {
 
-    var BASE_URL: String = "https://rest.binance.com"
+    var BASE_REST_URL: String = "https://rest.binance.com"
 }

@@ -3,7 +3,7 @@ package com.cluttered.cryptocurrency.model
 import java.math.BigDecimal
 import java.math.BigInteger
 
-data class Depth constructor(
+data class Depth(
         val lastUpdateId: BigInteger,
         val bids: MutableList<Order>,
         val asks: MutableList<Order>

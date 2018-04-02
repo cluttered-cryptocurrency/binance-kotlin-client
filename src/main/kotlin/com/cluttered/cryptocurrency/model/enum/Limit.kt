@@ -1,6 +1,6 @@
 package com.cluttered.cryptocurrency.model.enum
 
-enum class DepthLimit(val value: Int) {
+enum class Limit(private val value: Int) {
     FIVE(5),
     TEN(10),
     TWENTY(20),

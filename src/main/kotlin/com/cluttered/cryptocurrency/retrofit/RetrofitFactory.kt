@@ -1,7 +1,9 @@
 package com.cluttered.cryptocurrency.retrofit
 
-import com.cluttered.cryptocurrency.BinanceConstants.BASE_URL
+import com.cluttered.cryptocurrency.BinanceConstants.BASE_REST_URL
+import com.cluttered.cryptocurrency.model.Candlestick
 import com.cluttered.cryptocurrency.model.Depth
+import com.cluttered.cryptocurrency.serial.CandlestickDeserializer
 import com.cluttered.cryptocurrency.serial.DepthOrderDeserializer
 import com.cluttered.cryptocurrency.serial.InstantDeserializer
 import com.google.gson.GsonBuilder
@@ -19,7 +21,7 @@ object RetrofitFactory {
         return Retrofit.Builder()
                 .addConverterFactory(createGsonConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_REST_URL)
                 .build()
     }
 
@@ -29,6 +31,7 @@ object RetrofitFactory {
                 GsonBuilder()
                         .registerTypeAdapter(Instant::class.java, InstantDeserializer())
                         .registerTypeAdapter(Depth.Order::class.java, DepthOrderDeserializer())
+                        .registerTypeAdapter(Candlestick::class.java, CandlestickDeserializer())
                         .serializeNulls()
                         .create())
     }

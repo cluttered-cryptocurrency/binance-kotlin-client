@@ -12,6 +12,7 @@ class InstantDeserializer : JsonDeserializer<Instant> {
     @Throws(JsonParseException::class)
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Instant {
         val millis = json.asLong
+
         return Instant.ofEpochMilli(millis)
     }
 }

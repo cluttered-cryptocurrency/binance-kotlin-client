@@ -1,7 +1,8 @@
 package com.cluttered.cryptocurrency
 
 import com.cluttered.cryptocurrency.TestHelpers.getJson
-import com.cluttered.cryptocurrency.model.enum.DepthLimit.ONE_HUNDRED
+import com.cluttered.cryptocurrency.model.enum.ChartInterval.MINUTES_5
+import com.cluttered.cryptocurrency.model.enum.Limit.ONE_HUNDRED
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +15,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @RunWith(JUnit4::class)
-class BinanceClientTest {
+class BinanceRestClientTest {
 
     private lateinit var binanceClient: BinanceClient
     private lateinit var mockServer: MockWebServer
@@ -25,7 +26,7 @@ class BinanceClientTest {
         mockServer = MockWebServer()
         mockServer.start()
 
-        BinanceConstants.BASE_URL = mockServer.url("").toString()
+        BinanceConstants.BASE_REST_URL = mockServer.url("").toString()
         binanceClient = BinanceClient()
     }
 
@@ -281,6 +282,27 @@ class BinanceClientTest {
         testObserver.assertValueCount(1)
 
         assertThat(testObserver.values()[0][0].price).isEqualTo(BigDecimal("0.01633102"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testCandlesticks() {
+        val path = "/api/v1/klines?symbol=ETHBTC&interval=5m"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/candlesticks.json")))
+
+        val testObserver = binanceClient.rest.candlesticks("ETHBTC", MINUTES_5).test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].high).isEqualTo(BigDecimal("0.80000000"))
 
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
