@@ -2,13 +2,13 @@ package com.cluttered.cryptocurrency
 
 import com.cluttered.cryptocurrency.retrofit.RetrofitFactory
 import com.cluttered.cryptocurrency.retrofit.create
-import com.cluttered.cryptocurrency.services.PublicService
+import com.cluttered.cryptocurrency.services.BinanceRestService
 
-class PublicBinanceClient {
+class BinanceClient {
 
     private val retrofit = RetrofitFactory.create()
 
-    val public by lazy {
-        retrofit.create<PublicService>()
+    val rest by lazy {
+        retrofit.create<BinanceRestService>()
     }
 }

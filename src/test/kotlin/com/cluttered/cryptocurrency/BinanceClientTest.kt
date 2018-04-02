@@ -14,9 +14,9 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @RunWith(JUnit4::class)
-class PublicBinanceClientTest {
+class BinanceClientTest {
 
-    private lateinit var publicBinanceClient: PublicBinanceClient
+    private lateinit var binanceClient: BinanceClient
     private lateinit var mockServer: MockWebServer
 
     @Before
@@ -26,7 +26,7 @@ class PublicBinanceClientTest {
         mockServer.start()
 
         BinanceConstants.BASE_URL = mockServer.url("").toString()
-        publicBinanceClient = PublicBinanceClient()
+        binanceClient = BinanceClient()
     }
 
     @After
@@ -45,7 +45,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody("{}"))
 
-        val testObserver = publicBinanceClient.public.ping().test()
+        val testObserver = binanceClient.rest.ping().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(0)
@@ -65,7 +65,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/time.json")))
 
-        val testObserver = publicBinanceClient.public.time().test()
+        val testObserver = binanceClient.rest.time().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -86,7 +86,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/exchangeInfo.json")))
 
-        val testObserver = publicBinanceClient.public.exchangeInfo().test()
+        val testObserver = binanceClient.rest.exchangeInfo().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -107,7 +107,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/depth.json")))
 
-        val testObserver = publicBinanceClient.public.depth("ETHBTC").test()
+        val testObserver = binanceClient.rest.depth("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -128,7 +128,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/depth.json")))
 
-        val testObserver = publicBinanceClient.public.depth("ETHBTC", ONE_HUNDRED).test()
+        val testObserver = binanceClient.rest.depth("ETHBTC", ONE_HUNDRED).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -149,7 +149,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = publicBinanceClient.public.trades("ETHBTC").test()
+        val testObserver = binanceClient.rest.trades("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -170,7 +170,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = publicBinanceClient.public.trades("ETHBTC", 250).test()
+        val testObserver = binanceClient.rest.trades("ETHBTC", 250).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -191,7 +191,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC").test()
+        val testObserver = binanceClient.rest.historicalTrades("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -212,7 +212,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC", 235).test()
+        val testObserver = binanceClient.rest.historicalTrades("ETHBTC", 235).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -233,7 +233,7 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC", fromId = 6374).test()
+        val testObserver = binanceClient.rest.historicalTrades("ETHBTC", fromId = 6374).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -254,12 +254,33 @@ class PublicBinanceClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC", 75, 123456).test()
+        val testObserver = binanceClient.rest.historicalTrades("ETHBTC", 75, 123456).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
 
         assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testAggregateTrades() {
+        val path = "/api/v1/aggTrades?symbol=ETHBTC"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/aggregateTrades.json")))
+
+        val testObserver = binanceClient.rest.aggregateTrades("ETHBTC").test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].price).isEqualTo(BigDecimal("0.01633102"))
 
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
