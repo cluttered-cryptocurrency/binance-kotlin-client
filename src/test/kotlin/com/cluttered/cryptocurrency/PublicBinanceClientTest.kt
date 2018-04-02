@@ -180,4 +180,88 @@ class PublicBinanceClientTest {
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
     }
+
+    @Test
+    fun testHistoricalTrades() {
+        val path = "/api/v1/historicalTrades?symbol=ETHBTC"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/trades.json")))
+
+        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC").test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testHistoricalTradesLimit() {
+        val path = "/api/v1/historicalTrades?symbol=ETHBTC&limit=235"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/trades.json")))
+
+        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC", 235).test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testHistoricalTradesFromId() {
+        val path = "/api/v1/historicalTrades?symbol=ETHBTC&fromId=6374"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/trades.json")))
+
+        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC", fromId = 6374).test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testHistoricalTradesLimitFromId() {
+        val path = "/api/v1/historicalTrades?symbol=ETHBTC&limit=75&fromId=123456"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/trades.json")))
+
+        val testObserver = publicBinanceClient.public.historicalTrades("ETHBTC", 75, 123456).test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
 }

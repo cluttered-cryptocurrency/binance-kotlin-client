@@ -32,8 +32,5 @@ interface PublicService {
     fun trades(@Query("symbol") symbol: String, @Query("limit") limit: Int? = null): Observable<MutableList<Trade>>
 
     @GET("$API_V1/historicalTrades")
-    fun historicalTrades(@Query("symbol") symbol: String, @Query("limit") limit: Int = 500): Observable<MutableList<Trade>>
-
-    @GET("$API_V1/historicalTrades")
-    fun historicalTrades(@Query("symbol") symbol: String, @Query("limit") limit: Int = 500, @Query("fromId") fromId: Long): Observable<MutableList<Trade>>
+    fun historicalTrades(@Query("symbol") symbol: String, @Query("limit") limit: Int? = null, @Query("fromId") fromId: Long? = null): Observable<MutableList<Trade>>
 }
