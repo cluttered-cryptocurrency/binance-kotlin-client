@@ -29,7 +29,7 @@ interface PublicService {
     fun depth(@Query("symbol") symbol: String, @Query("limit") limit: DepthLimit? = null): Observable<Depth>
 
     @GET("$API_V1/trades")
-    fun trades(@Query("symbol") symbol: String, @Query("limit") limit: Int = 500): Observable<MutableList<Trade>>
+    fun trades(@Query("symbol") symbol: String, @Query("limit") limit: Int? = null): Observable<MutableList<Trade>>
 
     @GET("$API_V1/historicalTrades")
     fun historicalTrades(@Query("symbol") symbol: String, @Query("limit") limit: Int = 500): Observable<MutableList<Trade>>

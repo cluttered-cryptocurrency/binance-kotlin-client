@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.math.BigDecimal
 import java.time.Instant
 
 @RunWith(JUnit4::class)
@@ -133,6 +134,48 @@ class PublicBinanceClientTest {
         testObserver.assertValueCount(1)
 
         assertThat(testObserver.values()[0].lastUpdateId).isEqualTo(1027024)
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testTrades() {
+        val path = "/api/v1/trades?symbol=ETHBTC"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/trades.json")))
+
+        val testObserver = publicBinanceClient.public.trades("ETHBTC").test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testTradesLimits() {
+        val path = "/api/v1/trades?symbol=ETHBTC&limit=250"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/trades.json")))
+
+        val testObserver = publicBinanceClient.public.trades("ETHBTC", 250).test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][0].quantity).isEqualTo(BigDecimal("12.00000000"))
 
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
