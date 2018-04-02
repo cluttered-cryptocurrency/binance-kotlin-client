@@ -16,7 +16,7 @@ interface BinanceRestService {
         const val V3: String = "v3"
     }
 
-    /* ######## Public ######## */
+    /* ######## General ######## */
 
     @GET("$API/$V1/ping")
     fun ping(): Completable
@@ -65,4 +65,10 @@ interface BinanceRestService {
             @Query("startTime") startTime: Long? = null,
             @Query("endTime") endTime: Long? = null)
             : Observable<MutableList<Candlestick>>
+
+    @GET("$API/$V1/ticker/24hr")
+    fun ticker24Hour(): Observable<MutableList<Ticker24Hour>>
+
+    @GET("$API/$V1/ticker/24hr")
+    fun ticker24Hour(@Query("symbol") symbol: String): Observable<Ticker24Hour>
 }

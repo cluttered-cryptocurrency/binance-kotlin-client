@@ -12,7 +12,6 @@ object TestHelpers {
      * @return json : JSON from file at given path
      */
     fun getJson(path : String) : String {
-        // Load the JSON response
         val uri = this.javaClass.classLoader.getResource(path)
         val file = File(uri.path)
         return String(file.readBytes())
