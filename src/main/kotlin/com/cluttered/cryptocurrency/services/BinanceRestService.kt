@@ -71,4 +71,10 @@ interface BinanceRestService {
 
     @GET("$API/$V1/ticker/24hr")
     fun ticker24Hour(@Query("symbol") symbol: String): Observable<Ticker24Hour>
+
+    @GET("$API/$V3/ticker/price")
+    fun tickerPrice(): Observable<MutableList<TickerPrice>>
+
+    @GET("$API/$V3/ticker/price")
+    fun tickerPrice(@Query("symbol") symbol: String): Observable<TickerPrice>
 }
