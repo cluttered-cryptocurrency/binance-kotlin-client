@@ -391,4 +391,46 @@ class BinanceRestClientTest {
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
     }
+
+    @Test
+    fun testTickerBookList() {
+        val path = "/api/v3/ticker/bookTicker"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/tickerBookList.json")))
+
+        val testObserver = binanceClient.rest.tickerBook().test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0][1].askPrice).isEqualTo(BigDecimal("100000.00000000"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
+
+    @Test
+    fun testTickerBook() {
+        val path = "/api/v3/ticker/bookTicker?symbol=LTCBTC"
+
+        mockServer.enqueue(
+                MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json")
+                        .setBody(getJson("json/tickerBook.json")))
+
+        val testObserver = binanceClient.rest.tickerBook("LTCBTC").test()
+
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+
+        assertThat(testObserver.values()[0].askPrice).isEqualTo(BigDecimal("4.00000200"))
+
+        val request = mockServer.takeRequest()
+        assertThat(request.path).isEqualTo(path)
+    }
 }
