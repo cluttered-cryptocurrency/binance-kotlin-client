@@ -1,4 +1,4 @@
-package com.cluttered.cryptocurrency.model
+package com.cluttered.cryptocurrency.model.marketdata
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
