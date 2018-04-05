@@ -1,23 +1,14 @@
-buildscript {
-    ext.kotlin_version = '1.2.31'
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.2.31'
+    id 'jacoco'
 }
 
-apply plugin: 'jacoco'
-apply plugin: 'kotlin'
+group = 'com.cluttered-cryptocurrency'
+version = '0.1.0'
 
 if (!JavaVersion.current().java8Compatible) {
     throw new IllegalStateException("Must be built with Java 8 or higher")
 }
-
-group 'com.cluttered-cryptocurrency'
-version '0.1.0'
 
 ext {
     _gradle_version = '4.6'
@@ -34,12 +25,11 @@ ext {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
     compile "org.slf4j:slf4j-api:$slf4j_version"
     compile "com.github.devcsrj:slf4j-okhttp3-logging-interceptor:$slf4j_okhttp_version"
@@ -73,10 +63,12 @@ jacocoTestReport {
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = _gradle_version
+    distributionUrl = "http://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip"
 }
