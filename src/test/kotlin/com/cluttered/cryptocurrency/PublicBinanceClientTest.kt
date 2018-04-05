@@ -1,8 +1,8 @@
 package com.cluttered.cryptocurrency
 
 import com.cluttered.cryptocurrency.TestHelpers.getJson
-import com.cluttered.cryptocurrency.model.enums.ChartInterval.MINUTES_5
-import com.cluttered.cryptocurrency.model.enums.Limit.ONE_HUNDRED
+import com.cluttered.cryptocurrency.model.marketdata.ChartInterval.MINUTES_5
+import com.cluttered.cryptocurrency.model.marketdata.Limit.ONE_HUNDRED
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
@@ -15,9 +15,9 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @RunWith(JUnit4::class)
-class BinanceRestClientTest {
+class PublicBinanceClientTest {
 
-    private lateinit var binanceClient: BinanceClient
+    private lateinit var publicBinanceClient: PublicBinanceClient
     private lateinit var mockServer: MockWebServer
 
     @Before
@@ -27,7 +27,7 @@ class BinanceRestClientTest {
         mockServer.start()
 
         BinanceConstants.BASE_REST_URL = mockServer.url("").toString()
-        binanceClient = BinanceClient()
+        publicBinanceClient = PublicBinanceClient()
     }
 
     @After
@@ -46,7 +46,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody("{}"))
 
-        val testObserver = binanceClient.rest.ping().test()
+        val testObserver = publicBinanceClient.general.ping().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(0)
@@ -66,7 +66,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/time.json")))
 
-        val testObserver = binanceClient.rest.time().test()
+        val testObserver = publicBinanceClient.general.time().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -87,7 +87,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/exchangeInfo.json")))
 
-        val testObserver = binanceClient.rest.exchangeInfo().test()
+        val testObserver = publicBinanceClient.general.exchangeInfo().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -108,7 +108,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/depth.json")))
 
-        val testObserver = binanceClient.rest.depth("ETHBTC").test()
+        val testObserver = publicBinanceClient.marketData.depth("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -129,7 +129,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/depth.json")))
 
-        val testObserver = binanceClient.rest.depth("ETHBTC", ONE_HUNDRED).test()
+        val testObserver = publicBinanceClient.marketData.depth("ETHBTC", ONE_HUNDRED).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -150,7 +150,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = binanceClient.rest.trades("ETHBTC").test()
+        val testObserver = publicBinanceClient.marketData.trades("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -171,7 +171,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = binanceClient.rest.trades("ETHBTC", 250).test()
+        val testObserver = publicBinanceClient.marketData.trades("ETHBTC", 250).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -192,7 +192,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = binanceClient.rest.historicalTrades("ETHBTC").test()
+        val testObserver = publicBinanceClient.marketData.historicalTrades("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -213,7 +213,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = binanceClient.rest.historicalTrades("ETHBTC", 235).test()
+        val testObserver = publicBinanceClient.marketData.historicalTrades("ETHBTC", 235).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -234,7 +234,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = binanceClient.rest.historicalTrades("ETHBTC", fromId = 6374).test()
+        val testObserver = publicBinanceClient.marketData.historicalTrades("ETHBTC", fromId = 6374).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -255,7 +255,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/trades.json")))
 
-        val testObserver = binanceClient.rest.historicalTrades("ETHBTC", 75, 123456).test()
+        val testObserver = publicBinanceClient.marketData.historicalTrades("ETHBTC", 75, 123456).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -276,7 +276,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/aggregateTrades.json")))
 
-        val testObserver = binanceClient.rest.aggregateTrades("ETHBTC").test()
+        val testObserver = publicBinanceClient.marketData.aggregateTrades("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -297,7 +297,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/candlesticks.json")))
 
-        val testObserver = binanceClient.rest.candlesticks("ETHBTC", MINUTES_5).test()
+        val testObserver = publicBinanceClient.marketData.candlesticks("ETHBTC", MINUTES_5).test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -318,7 +318,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/ticker24HourList.json")))
 
-        val testObserver = binanceClient.rest.ticker24Hour().test()
+        val testObserver = publicBinanceClient.marketData.ticker24HourAll().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -339,7 +339,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/ticker24Hour.json")))
 
-        val testObserver = binanceClient.rest.ticker24Hour("ETHBTC").test()
+        val testObserver = publicBinanceClient.marketData.ticker24Hour("ETHBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -360,7 +360,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/tickerPriceList.json")))
 
-        val testObserver = binanceClient.rest.tickerPrice().test()
+        val testObserver = publicBinanceClient.marketData.tickerPriceAll().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -381,7 +381,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/tickerPrice.json")))
 
-        val testObserver = binanceClient.rest.tickerPrice("LTCBTC").test()
+        val testObserver = publicBinanceClient.marketData.tickerPrice("LTCBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -402,7 +402,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/tickerBookList.json")))
 
-        val testObserver = binanceClient.rest.tickerBook().test()
+        val testObserver = publicBinanceClient.marketData.tickerBookAll().test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
@@ -423,7 +423,7 @@ class BinanceRestClientTest {
                         .addHeader("Content-Type", "application/json")
                         .setBody(getJson("json/tickerBook.json")))
 
-        val testObserver = binanceClient.rest.tickerBook("LTCBTC").test()
+        val testObserver = publicBinanceClient.marketData.tickerBook("LTCBTC").test()
 
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)

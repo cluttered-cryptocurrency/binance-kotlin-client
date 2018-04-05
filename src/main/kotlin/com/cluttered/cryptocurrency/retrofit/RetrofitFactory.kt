@@ -1,8 +1,8 @@
 package com.cluttered.cryptocurrency.retrofit
 
 import com.cluttered.cryptocurrency.BinanceConstants.BASE_REST_URL
-import com.cluttered.cryptocurrency.model.Candlestick
-import com.cluttered.cryptocurrency.model.Depth
+import com.cluttered.cryptocurrency.model.marketdata.Candlestick
+import com.cluttered.cryptocurrency.model.marketdata.Depth
 import com.cluttered.cryptocurrency.serial.CandlestickDeserializer
 import com.cluttered.cryptocurrency.serial.DepthOrderDeserializer
 import com.cluttered.cryptocurrency.serial.InstantDeserializer

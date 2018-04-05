@@ -1,6 +1,6 @@
 package com.cluttered.cryptocurrency.serial
 
-import com.cluttered.cryptocurrency.model.Depth
+import com.cluttered.cryptocurrency.model.marketdata.Depth
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
