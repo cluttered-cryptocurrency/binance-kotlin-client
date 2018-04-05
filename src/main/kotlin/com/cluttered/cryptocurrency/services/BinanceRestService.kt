@@ -1,8 +1,8 @@
 package com.cluttered.cryptocurrency.services
 
 import com.cluttered.cryptocurrency.model.*
-import com.cluttered.cryptocurrency.model.enum.ChartInterval
-import com.cluttered.cryptocurrency.model.enum.Limit
+import com.cluttered.cryptocurrency.model.enums.ChartInterval
+import com.cluttered.cryptocurrency.model.enums.Limit
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.GET

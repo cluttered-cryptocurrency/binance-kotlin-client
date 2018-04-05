@@ -1,8 +1,8 @@
 package com.cluttered.cryptocurrency
 
 import com.cluttered.cryptocurrency.TestHelpers.getJson
-import com.cluttered.cryptocurrency.model.enum.ChartInterval.MINUTES_5
-import com.cluttered.cryptocurrency.model.enum.Limit.ONE_HUNDRED
+import com.cluttered.cryptocurrency.model.enums.ChartInterval.MINUTES_5
+import com.cluttered.cryptocurrency.model.enums.Limit.ONE_HUNDRED
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat

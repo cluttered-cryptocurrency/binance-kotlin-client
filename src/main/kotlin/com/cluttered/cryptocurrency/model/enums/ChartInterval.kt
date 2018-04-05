@@ -1,4 +1,4 @@
-package com.cluttered.cryptocurrency.model.enum
+package com.cluttered.cryptocurrency.model.enums
 
 enum class ChartInterval constructor(private val display: String) {
     MINUTES_1("1m"),

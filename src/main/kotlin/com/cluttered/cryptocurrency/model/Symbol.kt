@@ -1,7 +1,7 @@
 package com.cluttered.cryptocurrency.model
 
-import com.cluttered.cryptocurrency.model.enum.OrderType
-import com.cluttered.cryptocurrency.model.enum.SymbolStatus
+import com.cluttered.cryptocurrency.model.enums.OrderType
+import com.cluttered.cryptocurrency.model.enums.SymbolStatus
 
 data class Symbol(
         val symbol: String,

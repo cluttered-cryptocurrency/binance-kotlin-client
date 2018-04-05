@@ -1,7 +1,7 @@
 package com.cluttered.cryptocurrency.model
 
-import com.cluttered.cryptocurrency.model.enum.RateLimitInterval
-import com.cluttered.cryptocurrency.model.enum.RateLimitType
+import com.cluttered.cryptocurrency.model.enums.RateLimitInterval
+import com.cluttered.cryptocurrency.model.enums.RateLimitType
 
 data class RateLimit(
         val rateLimitType: RateLimitType,

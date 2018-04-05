@@ -1,4 +1,4 @@
-package com.cluttered.cryptocurrency.model.enum
+package com.cluttered.cryptocurrency.model.enums
 
 enum class SymbolStatus {
     PRE_TRADING,

@@ -1,4 +1,4 @@
-package com.cluttered.cryptocurrency.model.enum
+package com.cluttered.cryptocurrency.model.enums
 
 enum class Limit(private val value: Int) {
     FIVE(5),
