@@ -1,6 +1,6 @@
 package com.cluttered.cryptocurrency.model.general
 
-import com.cluttered.cryptocurrency.model.OrderType
+import com.cluttered.cryptocurrency.model.account.OrderType
 import com.cluttered.cryptocurrency.model.SymbolStatus
 
 data class Symbol(
