@@ -4,10 +4,11 @@ import com.cluttered.cryptocurrency.retrofit.RetrofitFactory
 import com.cluttered.cryptocurrency.retrofit.create
 import com.cluttered.cryptocurrency.services.GeneralRestService
 import com.cluttered.cryptocurrency.services.MarketDataRestService
+import retrofit2.Retrofit
 
-class PublicBinanceClient {
+open class PublicBinanceClient(key: String = "", secret: String = "") {
 
-    private val retrofit = RetrofitFactory.create()
+    protected val retrofit: Retrofit = RetrofitFactory.create(key, secret)
 
     val general by lazy {
         retrofit.create<GeneralRestService>()
