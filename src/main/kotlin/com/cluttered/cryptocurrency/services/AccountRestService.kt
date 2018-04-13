@@ -7,10 +7,7 @@ import com.cluttered.cryptocurrency.model.account.OrderSide.BUY
 import com.cluttered.cryptocurrency.model.account.OrderSide.SELL
 import com.cluttered.cryptocurrency.model.account.OrderType.*
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.concurrent.TimeUnit.MINUTES
@@ -71,6 +68,26 @@ interface AccountRestService {
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<Order>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @DELETE("api/v3/order")
+    fun cancelOrderById(
+            @Query("symbol") symbol: String,
+            @Query("orderId") orderId: Long,
+            @Query("newClientOrderId") newClientOrderId: String? = null,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+            : Observable<CancelledOrder>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @DELETE("api/v3/order")
+    fun cancelOrderByClientId(
+            @Query("symbol") symbol: String,
+            @Query("origClientOrderId") clientOrderId: String,
+            @Query("newClientOrderId") newClientOrderId: String? = null,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+            : Observable<CancelledOrder>
 
     /* ######## Buy by Type ######## */
 
