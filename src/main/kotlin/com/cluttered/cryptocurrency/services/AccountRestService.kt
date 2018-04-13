@@ -101,4 +101,52 @@ interface AccountRestService {
     private fun orderTakeProfitLimit(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = order(symbol, side, TAKE_PROFIT_LIMIT, timeInForce, quantity, price, stopPrice = stopPrice)
 
     private fun orderLimitMaker(symbol: String, side: OrderSide, quantity: BigDecimal, price: BigDecimal) = order(symbol, side, LIMIT_MAKER, quantity = quantity, price = price)
+
+    /* ######## Test Buy by Type ######## */
+
+    fun buyLimitTest(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal) = orderLimitTest(symbol, BUY, timeInForce, quantity, price)
+
+    fun buyMarketTest(symbol: String, quantity: BigDecimal) = orderMarketTest(symbol, BUY, quantity)
+
+    fun buyStopLossTest(symbol: String, quantity: BigDecimal, stopPrice: BigDecimal) = orderStopLossTest(symbol, BUY, quantity, stopPrice)
+
+    fun buyStopLossLimitTest(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = orderStopLossLimitTest(symbol, BUY, timeInForce, quantity, price, stopPrice)
+
+    fun buyTakeProfitTest(symbol: String, quantity: BigDecimal, stopPrice: BigDecimal) = orderTakeProfitTest(symbol, BUY, quantity, stopPrice)
+
+    fun buyTakeProfitLimitTest(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = orderTakeProfitLimitTest(symbol, BUY, timeInForce, quantity, price, stopPrice)
+
+    fun buyLimitMakerTest(symbol: String, quantity: BigDecimal, price: BigDecimal) = orderLimitMakerTest(symbol, BUY, quantity, price)
+
+    /* ######## Test Sell by Type ######## */
+
+    fun sellLimitTest(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal) = orderLimitTest(symbol, SELL, timeInForce, quantity, price)
+
+    fun sellMarketTest(symbol: String, quantity: BigDecimal) = orderMarketTest(symbol, SELL, quantity)
+
+    fun sellStopLossTest(symbol: String, quantity: BigDecimal, stopPrice: BigDecimal) = orderStopLossTest(symbol, SELL, quantity, stopPrice)
+
+    fun sellStopLossLimitTest(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = orderStopLossLimitTest(symbol, SELL, timeInForce, quantity, price, stopPrice)
+
+    fun sellTakeProfitTest(symbol: String, quantity: BigDecimal, stopPrice: BigDecimal) = orderTakeProfitTest(symbol, SELL, quantity, stopPrice)
+
+    fun sellTakeProfitLimitTest(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = orderTakeProfitLimitTest(symbol, SELL, timeInForce, quantity, price, stopPrice)
+
+    fun sellLimitMakerTest(symbol: String, quantity: BigDecimal, price: BigDecimal) = orderLimitMakerTest(symbol, SELL, quantity, price)
+
+    /* ######## Test Order by Type ######## */
+
+    private fun orderLimitTest(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal) = orderTest(symbol, side, LIMIT, timeInForce, quantity, price)
+
+    private fun orderMarketTest(symbol: String, side: OrderSide, quantity: BigDecimal) = orderTest(symbol, side, MARKET, quantity = quantity)
+
+    private fun orderStopLossTest(symbol: String, side: OrderSide, quantity: BigDecimal, stopPrice: BigDecimal) = orderTest(symbol, side, STOP_LOSS, quantity = quantity, stopPrice = stopPrice)
+
+    private fun orderStopLossLimitTest(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = orderTest(symbol, side, STOP_LOSS_LIMIT, timeInForce, quantity, price, stopPrice = stopPrice)
+
+    private fun orderTakeProfitTest(symbol: String, side: OrderSide, quantity: BigDecimal, stopPrice: BigDecimal) = orderTest(symbol, side, TAKE_PROFIT, quantity = quantity, stopPrice = stopPrice)
+
+    private fun orderTakeProfitLimitTest(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal) = orderTest(symbol, side, TAKE_PROFIT_LIMIT, timeInForce, quantity, price, stopPrice = stopPrice)
+
+    private fun orderLimitMakerTest(symbol: String, side: OrderSide, quantity: BigDecimal, price: BigDecimal) = orderTest(symbol, side, LIMIT_MAKER, quantity = quantity, price = price)
 }
