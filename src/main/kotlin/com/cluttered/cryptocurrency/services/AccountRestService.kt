@@ -7,6 +7,7 @@ import com.cluttered.cryptocurrency.model.account.OrderSide.BUY
 import com.cluttered.cryptocurrency.model.account.OrderSide.SELL
 import com.cluttered.cryptocurrency.model.account.OrderType.*
 import io.reactivex.Observable
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -53,6 +54,23 @@ interface AccountRestService {
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<OrderResult>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("api/v3/order")
+    fun getOrderById(
+            @Query("symbol") symbol: String,
+            @Query("orderId") orderId: Long,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("api/v3/order")
+    fun getOrderByClientId(
+            @Query("symbol") symbol: String,
+            @Query("origClientOrderId") clientOrderId: String,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+            : Observable<Order>
 
     /* ######## Buy by Type ######## */
 
