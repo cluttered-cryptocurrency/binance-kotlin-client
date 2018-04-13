@@ -107,6 +107,25 @@ interface AccountRestService {
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<MutableList<Order>>
 
+    // TODO: account (return object)
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("api/v3/account")
+    fun accountInfo(
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+
+    // TODO: myTrades (return object)
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("api/v3/myTrades")
+    fun myTrades(
+            @Query("symbol") symbol: String,
+            @Query("limit") limit: Int? = null,
+            @Query("fromId") fromId: Long? = null,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+
+    // TODO: userDataStream
+
     /* ######## Buy by Type ######## */
 
     fun buyLimit(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal) = orderLimit(symbol, BUY, timeInForce, quantity, price)
