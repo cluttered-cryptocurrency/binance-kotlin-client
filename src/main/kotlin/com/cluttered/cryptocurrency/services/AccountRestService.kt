@@ -89,6 +89,24 @@ interface AccountRestService {
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<CancelledOrder>
 
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("api/v3/openOrders")
+    fun openOrders(
+            @Query("symbol") symbol: String? = null,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+            : Observable<MutableList<Order>>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("api/v3/allOrders")
+    fun allOrders(
+            @Query("symbol") symbol: String,
+            @Query("orderId") orderId: Long? = null,
+            @Query("limit") limit: Int? = null,
+            @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+            : Observable<MutableList<Order>>
+
     /* ######## Buy by Type ######## */
 
     fun buyLimit(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal) = orderLimit(symbol, BUY, timeInForce, quantity, price)
