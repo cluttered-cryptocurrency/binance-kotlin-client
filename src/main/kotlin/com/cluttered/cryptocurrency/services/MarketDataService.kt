@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MarketDataRestService {
+interface MarketDataService {
 
     @GET("api/v1/depth")
     fun depth(

@@ -6,7 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.GET
 
-interface GeneralRestService {
+interface GeneralService {
 
     @GET("api/v1/ping")
     fun ping(): Completable

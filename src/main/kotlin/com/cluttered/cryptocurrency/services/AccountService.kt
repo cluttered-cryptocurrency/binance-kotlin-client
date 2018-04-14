@@ -12,7 +12,7 @@ import java.math.BigDecimal
 import java.time.Instant
 import java.util.concurrent.TimeUnit.MINUTES
 
-interface AccountRestService {
+interface AccountService {
 
     companion object {
         val ONE_MINUTE_IN_MILLIS = MINUTES.toMillis(1)
@@ -109,14 +109,14 @@ interface AccountRestService {
 
     @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @GET("api/v3/account")
-    fun accountSnapshot(
+    fun snapshot(
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<AccountSnapshot>
 
     @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @GET("api/v3/myTrades")
-    fun myTrades(
+    fun trades(
             @Query("symbol") symbol: String,
             @Query("limit") limit: Int? = null,
             @Query("fromId") fromId: Long? = null,
