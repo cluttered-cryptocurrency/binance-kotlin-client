@@ -21,7 +21,7 @@ class HmacSHA256(secret: String) {
 
     @Throws(SignatureException::class, NoSuchAlgorithmException::class, InvalidKeyException::class)
     fun encode(message: String): String {
-        val array = mac.doFinal(message.toByteArray())
-        return DatatypeConverter.printHexBinary(array)
+        val encodedArray = mac.doFinal(message.toByteArray())
+        return DatatypeConverter.printHexBinary(encodedArray)
     }
 }
