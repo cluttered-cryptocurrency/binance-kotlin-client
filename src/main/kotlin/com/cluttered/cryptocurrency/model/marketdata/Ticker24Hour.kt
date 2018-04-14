@@ -2,7 +2,6 @@ package com.cluttered.cryptocurrency.model.marketdata
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
-import java.time.Instant
 
 data class Ticker24Hour(
         val symbol: String,
@@ -19,8 +18,8 @@ data class Ticker24Hour(
         val lowPrice: BigDecimal,
         val volume: BigDecimal,
         val quoteVolume: BigDecimal,
-        val openTime: Instant,
-        val closeTime: Instant,
+        val openTime: Long,
+        val closeTime: Long,
         val fristId: Long,
         val lastId: Long,
         val count: Long

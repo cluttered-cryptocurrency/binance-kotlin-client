@@ -2,7 +2,6 @@ package com.cluttered.cryptocurrency.model.account
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
-import java.time.Instant
 
 data class Order(
         val symbol: String,
@@ -17,6 +16,6 @@ data class Order(
         val side: OrderSide,
         val stopPrice: BigDecimal,
         @SerializedName("icebergQty") val icebergQuantity: BigDecimal,
-        val time: Instant,
+        val time: Long,
         val isWorking: Boolean
 )

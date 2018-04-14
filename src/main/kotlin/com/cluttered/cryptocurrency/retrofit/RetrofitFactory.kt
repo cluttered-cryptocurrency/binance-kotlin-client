@@ -6,13 +6,11 @@ import com.cluttered.cryptocurrency.model.marketdata.Depth
 import com.cluttered.cryptocurrency.security.AuthenticationInterceptor
 import com.cluttered.cryptocurrency.serial.CandlestickDeserializer
 import com.cluttered.cryptocurrency.serial.DepthOrderDeserializer
-import com.cluttered.cryptocurrency.serial.InstantDeserializer
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.Instant
 
 inline fun <reified T> Retrofit.create(): T = create(T::class.java)
 
@@ -32,7 +30,6 @@ object RetrofitFactory {
     private fun createGsonConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create(
                 GsonBuilder()
-                        .registerTypeAdapter(Instant::class.java, InstantDeserializer())
                         .registerTypeAdapter(Depth.Order::class.java, DepthOrderDeserializer())
                         .registerTypeAdapter(Candlestick::class.java, CandlestickDeserializer())
                         .create())

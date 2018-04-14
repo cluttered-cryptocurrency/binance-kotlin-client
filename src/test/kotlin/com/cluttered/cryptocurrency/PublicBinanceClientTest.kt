@@ -12,7 +12,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import java.math.BigDecimal
-import java.time.Instant
 
 @RunWith(JUnit4::class)
 class PublicBinanceClientTest {
@@ -71,7 +70,7 @@ class PublicBinanceClientTest {
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
 
-        assertThat(testObserver.values()[0].serverTime).isEqualTo(Instant.ofEpochMilli(1499827319559))
+        assertThat(testObserver.values()[0].serverTime).isEqualTo(1499827319559)
 
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
@@ -92,7 +91,7 @@ class PublicBinanceClientTest {
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
 
-        assertThat(testObserver.values()[0].serverTime).isEqualTo(Instant.ofEpochMilli(1508631584636))
+        assertThat(testObserver.values()[0].serverTime).isEqualTo(1508631584636)
 
         val request = mockServer.takeRequest()
         assertThat(request.path).isEqualTo(path)
