@@ -6,7 +6,12 @@ import com.cluttered.cryptocurrency.services.GeneralService
 import com.cluttered.cryptocurrency.services.MarketDataService
 import retrofit2.Retrofit
 
-open class PublicBinanceClient(key: String = "", secret: String = "") {
+open class PublicBinanceClient protected constructor(key: String = "", secret: String = "") {
+
+    companion object {
+        @JvmStatic
+        fun create(): PublicBinanceClient = PublicBinanceClient()
+    }
 
     protected val retrofit: Retrofit = RetrofitFactory.create(key, secret)
 

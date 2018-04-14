@@ -17,7 +17,7 @@ inline fun <reified T> Retrofit.create(): T = create(T::class.java)
 object RetrofitFactory {
 
     @JvmStatic
-    fun create(key: String = "", secret: String = ""): Retrofit {
+    fun create(key: String, secret: String): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(createGsonConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

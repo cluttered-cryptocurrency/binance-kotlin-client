@@ -4,7 +4,12 @@ import com.cluttered.cryptocurrency.retrofit.create
 import com.cluttered.cryptocurrency.services.AccountService
 import com.cluttered.cryptocurrency.services.UserDataStreamService
 
-class BinanceClient(key: String, secret: String) : PublicBinanceClient(key, secret) {
+class BinanceClient private constructor(key: String, secret: String) : PublicBinanceClient(key, secret) {
+
+    companion object {
+        @JvmStatic
+        fun create(key: String, secret: String): BinanceClient = BinanceClient(key, secret)
+    }
 
     val account by lazy {
         retrofit.create<AccountService>()

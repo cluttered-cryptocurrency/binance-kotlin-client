@@ -26,7 +26,7 @@ class PublicBinanceClientTest {
         mockServer.start()
 
         BinanceConstants.BASE_REST_URL = mockServer.url("").toString()
-        publicBinanceClient = PublicBinanceClient()
+        publicBinanceClient = PublicBinanceClient.create()
     }
 
     @After
