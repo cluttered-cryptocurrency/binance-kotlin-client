@@ -114,7 +114,6 @@ interface AccountRestService {
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<AccountSnapshot>
 
-    // TODO: myTrades (return object)
     @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @GET("api/v3/myTrades")
     fun myTrades(
@@ -123,6 +122,7 @@ interface AccountRestService {
             @Query("fromId") fromId: Long? = null,
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
+            : Observable<MutableList<Trade>>
 
     // TODO: userDataStream
 
