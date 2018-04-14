@@ -21,7 +21,7 @@ class HmacSHA256(secret: String) {
     @Throws(SignatureException::class, NoSuchAlgorithmException::class, InvalidKeyException::class)
     fun encode(message: String): String {
         return mac.doFinal(message.toByteArray())
-                .map { String.format("%02X", it) }
+                .map { String.format("%02x", it) }
                 .reduce { acc, str -> acc + str }
     }
 }
