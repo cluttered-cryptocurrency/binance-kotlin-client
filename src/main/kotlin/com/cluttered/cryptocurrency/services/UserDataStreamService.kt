@@ -17,6 +17,6 @@ interface UserDataStreamService {
     fun keepAlive(@Query("listenKey") listenKey: String): Completable
 
     @Headers(ENDPOINT_SECURITY_TYPE_APIKEY_HEADER)
-    @DELETE("/api/v1/userDataStream")
+    @DELETE("api/v1/userDataStream")
     fun close(@Query("listenKey") listenKey: String): Completable
 }
