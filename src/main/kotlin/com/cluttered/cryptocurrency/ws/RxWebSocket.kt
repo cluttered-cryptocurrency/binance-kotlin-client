@@ -30,6 +30,7 @@ object RxWebSocket {
 
     private var observableWebsocket: Observable<RxWebSocketEvent>? = null
 
+    @Suppress("UNCHECKED_CAST")
     fun aggregateTrade(symbol: String): PublishSubject<AggregateTradeEvent> {
         val streamName = "${symbol.toLowerCase()}@aggTrade"
         println("initialize stream: $streamName")
