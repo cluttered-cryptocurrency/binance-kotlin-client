@@ -2,7 +2,7 @@ package com.cluttered.cryptocurrency
 
 object BinanceConstants {
 
-    var BASE_REST_URL: String = "https://rest.binance.com"
+    var BASE_REST_URL: String = "https://api.binance.com"
 
     const val BASE_WEB_SOCKET_URL = "wss://stream.binance.com:9443"
 
