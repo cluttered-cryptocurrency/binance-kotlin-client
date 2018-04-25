@@ -5,6 +5,7 @@ import com.cluttered.cryptocurrency.model.marketdata.CandlestickInterval
 import com.cluttered.cryptocurrency.model.ws.AggregateTradeEvent
 import com.cluttered.cryptocurrency.model.ws.CandlestickEvent
 import com.cluttered.cryptocurrency.model.ws.StreamEvent
+import com.cluttered.cryptocurrency.model.ws.TradeEvent
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.Observable
@@ -39,6 +40,18 @@ object RxWebSocket {
             PublishSubject.create<AggregateTradeEvent>() as PublishSubject<Any>
         } as PublishSubject<AggregateTradeEvent>
     }
+
+    @Suppress("UNCHECKED_CAST")
+    fun trade(symbol: String): PublishSubject<TradeEvent> {
+        val streamName = "${symbol.toLowerCase()}@trade"
+        println("initialize stream: $streamName")
+
+        return subjectsByStreamName.getOrPut(streamName) {
+            PublishSubject.create<TradeEvent>() as PublishSubject<Any>
+        } as PublishSubject<TradeEvent>
+    }
+
+    fun kline(symbol: String, interval: CandlestickInterval) = candlestick(symbol, interval)
 
     @Suppress("UNCHECKED_CAST")
     fun candlestick(symbol: String, interval: CandlestickInterval): PublishSubject<CandlestickEvent> {
@@ -97,6 +110,10 @@ object RxWebSocket {
 
                         if (event.stream.endsWith("@aggTrade")) {
                             return gson.fromJson<AggregateTradeEvent>(event.data)
+                        }
+
+                        if (event.stream.endsWith("@trade")) {
+                            return gson.fromJson<TradeEvent>(event.data)
                         }
 
                         if (event.stream.contains("@kline")) {
