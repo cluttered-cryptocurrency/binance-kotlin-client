@@ -4,6 +4,7 @@ import com.cluttered.cryptocurrency.retrofit.RetrofitFactory
 import com.cluttered.cryptocurrency.retrofit.create
 import com.cluttered.cryptocurrency.services.GeneralService
 import com.cluttered.cryptocurrency.services.MarketDataService
+import com.cluttered.cryptocurrency.ws.RxWebSocket
 import retrofit2.Retrofit
 
 open class PublicBinanceClient protected constructor(key: String = "", secret: String = "") {
@@ -22,4 +23,6 @@ open class PublicBinanceClient protected constructor(key: String = "", secret: S
     val marketData by lazy {
         retrofit.create<MarketDataService>()
     }
+
+    val websocket = RxWebSocket
 }

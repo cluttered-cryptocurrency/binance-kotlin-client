@@ -3,7 +3,7 @@ package com.cluttered.cryptocurrency.ws
 import com.cluttered.cryptocurrency.BinanceConstants.BASE_WEB_SOCKET_URL
 import com.cluttered.cryptocurrency.model.marketdata.CandlestickInterval
 import com.cluttered.cryptocurrency.model.ws.CandlestickEvent
-import com.cluttered.cryptocurrency.model.ws.MessageEvent
+import com.cluttered.cryptocurrency.model.ws.StreamEvent
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.Observable
@@ -31,7 +31,9 @@ object RxWebSocket {
 
     @Suppress("UNCHECKED_CAST")
     fun candlestick(symbol: String, interval: CandlestickInterval): PublishSubject<CandlestickEvent> {
-        val streamName = "$symbol@kline_$interval"
+        val streamName = "${symbol.toLowerCase()}@kline_$interval"
+        println("initialize stream: $streamName")
+
         return subjectsByStreamName.getOrPut(streamName) {
             PublishSubject.create<CandlestickEvent>() as PublishSubject<Any>
         } as PublishSubject<CandlestickEvent>
@@ -41,6 +43,7 @@ object RxWebSocket {
         if (observableWebsocket == null) {
 
             val requestUrl = "$BASE_WEB_SOCKET_URL/stream?streams=${subjectsByStreamName.keys.joinToString("/")}"
+            println("Starting socket: $requestUrl")
 
             val request = Request.Builder()
                     .url(requestUrl)
@@ -65,13 +68,13 @@ object RxWebSocket {
                     }
 
                     override fun onMessage(webSocket: WebSocket, text: String) {
-                        val event = gson.fromJson<MessageEvent>(text)
+                        it.onNext(RxWebSocketEvent.MessageStringEvent(webSocket, text))
+
+                        val event = gson.fromJson<StreamEvent>(text)
                         val eventData: Any? = parseEventData(event)
                         if (eventData != null) {
-                            subjectsByStreamName[event.message]!!.onNext(eventData)
+                            subjectsByStreamName[event.stream]!!.onNext(eventData)
                         }
-
-                        it.onNext(RxWebSocketEvent.MessageStringEvent(webSocket, text))
                     }
 
                     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -79,8 +82,8 @@ object RxWebSocket {
                         it.onComplete()
                     }
 
-                    private fun parseEventData(event: MessageEvent): Any? {
-                        if (event.message.contains("@kline")) {
+                    private fun parseEventData(event: StreamEvent): Any? {
+                        if (event.stream.contains("@kline")) {
                             return gson.fromJson<CandlestickEvent>(event.data)
                         }
 
@@ -89,6 +92,8 @@ object RxWebSocket {
                 })
             }
         }
+
+        observableWebsocket!!.subscribe {  } // users aren't required to subscribe
 
         return observableWebsocket!!
     }

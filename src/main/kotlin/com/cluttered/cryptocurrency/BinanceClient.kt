@@ -19,6 +19,4 @@ class BinanceClient private constructor(key: String, secret: String) : PublicBin
     val userDataStream by lazy {
         retrofit.create<UserDataStreamService>()
     }
-
-    val websocket = RxWebSocket
 }
