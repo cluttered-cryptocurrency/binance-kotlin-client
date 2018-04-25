@@ -2,10 +2,7 @@ package com.cluttered.cryptocurrency.ws
 
 import com.cluttered.cryptocurrency.BinanceConstants.BASE_WEB_SOCKET_URL
 import com.cluttered.cryptocurrency.model.marketdata.CandlestickInterval
-import com.cluttered.cryptocurrency.model.ws.AggregateTradeEvent
-import com.cluttered.cryptocurrency.model.ws.CandlestickEvent
-import com.cluttered.cryptocurrency.model.ws.StreamEvent
-import com.cluttered.cryptocurrency.model.ws.TradeEvent
+import com.cluttered.cryptocurrency.model.ws.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.Observable
@@ -31,36 +28,29 @@ object RxWebSocket {
 
     private var observableWebsocket: Observable<RxWebSocketEvent>? = null
 
-    @Suppress("UNCHECKED_CAST")
-    fun aggregateTrade(symbol: String): PublishSubject<AggregateTradeEvent> {
-        val streamName = "${symbol.toLowerCase()}@aggTrade"
-        println("initialize stream: $streamName")
+    fun aggregateTrade(symbol: String): PublishSubject<AggregateTradeEvent>
+            = initializeStream("${symbol.toLowerCase()}@aggTrade")
 
-        return subjectsByStreamName.getOrPut(streamName) {
-            PublishSubject.create<AggregateTradeEvent>() as PublishSubject<Any>
-        } as PublishSubject<AggregateTradeEvent>
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun trade(symbol: String): PublishSubject<TradeEvent> {
-        val streamName = "${symbol.toLowerCase()}@trade"
-        println("initialize stream: $streamName")
-
-        return subjectsByStreamName.getOrPut(streamName) {
-            PublishSubject.create<TradeEvent>() as PublishSubject<Any>
-        } as PublishSubject<TradeEvent>
-    }
+    fun trade(symbol: String): PublishSubject<TradeEvent>
+            = initializeStream("${symbol.toLowerCase()}@trade")
 
     fun kline(symbol: String, interval: CandlestickInterval) = candlestick(symbol, interval)
 
-    @Suppress("UNCHECKED_CAST")
-    fun candlestick(symbol: String, interval: CandlestickInterval): PublishSubject<CandlestickEvent> {
-        val streamName = "${symbol.toLowerCase()}@kline_$interval"
-        println("initialize stream: $streamName")
+    fun candlestick(symbol: String, interval: CandlestickInterval): PublishSubject<CandlestickEvent>
+            = initializeStream("${symbol.toLowerCase()}@kline_$interval")
 
+    fun ticker(symbol: String): PublishSubject<TickerEvent>
+            = initializeStream("${symbol.toLowerCase()}@ticker")
+
+    fun ticker(): PublishSubject<List<TickerEvent>>
+            = initializeStream("!ticker@arr")
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> initializeStream(streamName: String): PublishSubject<T> {
+        println("initialize stream: $streamName")
         return subjectsByStreamName.getOrPut(streamName) {
-            PublishSubject.create<CandlestickEvent>() as PublishSubject<Any>
-        } as PublishSubject<CandlestickEvent>
+            PublishSubject.create<T>() as PublishSubject<Any>
+        } as PublishSubject<T>
     }
 
     @Synchronized fun start(): Observable<RxWebSocketEvent> {
@@ -116,6 +106,14 @@ object RxWebSocket {
                             return gson.fromJson<TradeEvent>(event.data)
                         }
 
+                        if (event.stream.endsWith("@ticker")) {
+                            return gson.fromJson<TickerEvent>(event.data)
+                        }
+
+                        if (event.stream.startsWith("!ticker")) {
+                            return gson.fromJson<List<TickerEvent>>(event.data)
+                        }
+
                         if (event.stream.contains("@kline")) {
                             return gson.fromJson<CandlestickEvent>(event.data)
                         }
@@ -126,7 +124,7 @@ object RxWebSocket {
             }
         }
 
-        observableWebsocket!!.subscribe {  } // users aren't required to subscribe
+        observableWebsocket!!.subscribe {  } // so users aren't required to subscribe but can
 
         return observableWebsocket!!
     }
