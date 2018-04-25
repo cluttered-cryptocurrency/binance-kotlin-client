@@ -5,8 +5,8 @@ import java.math.BigInteger
 
 data class Depth(
         val lastUpdateId: BigInteger,
-        val bids: MutableList<Order>,
-        val asks: MutableList<Order>
+        val bids: List<Order>,
+        val asks: List<Order>
 ) {
 
     data class Order(

@@ -95,7 +95,7 @@ interface AccountService {
             @Query("symbol") symbol: String? = null,
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
-            : Observable<MutableList<Order>>
+            : Observable<List<Order>>
 
     @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @GET("api/v3/allOrders")
@@ -105,7 +105,7 @@ interface AccountService {
             @Query("limit") limit: Int? = null,
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
-            : Observable<MutableList<Order>>
+            : Observable<List<Order>>
 
     @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @GET("api/v3/account")
@@ -122,7 +122,7 @@ interface AccountService {
             @Query("fromId") fromId: Long? = null,
             @Query("recvWindow") receivingWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
-            : Observable<MutableList<Trade>>
+            : Observable<List<Trade>>
 
     // TODO: userDataStream
 

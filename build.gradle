@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.31'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.40'
     id 'jacoco'
 }
 
@@ -28,7 +28,7 @@ repositories {
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttp_version"
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"

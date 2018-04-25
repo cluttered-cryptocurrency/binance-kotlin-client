@@ -10,7 +10,7 @@ data class Symbol(
         val baseAssetPrecision: Int,
         val quoteAsset: String,
         val quotePrecision: Int,
-        val orderTypes: MutableList<OrderType>,
+        val orderTypes: List<OrderType>,
         val icebergAllowed: Boolean,
-        val filters: MutableList<Any>
+        val filters: List<Any>
 )

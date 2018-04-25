@@ -1,6 +1,6 @@
 package com.cluttered.cryptocurrency.model.marketdata
 
-enum class ChartInterval constructor(private val display: String) {
+enum class CandlestickInterval(private val display: String) {
     MINUTES_1("1m"),
     MINUTES_3("3m"),
     MINUTES_5("5m"),
@@ -16,6 +16,17 @@ enum class ChartInterval constructor(private val display: String) {
     DAYS_3("3d"),
     WEEKS_1("1w"),
     MONTHS_1("1M");
+
+    companion object {
+        private val vals: Array<CandlestickInterval> by lazy {
+            CandlestickInterval.values()
+        }
+
+        @JvmStatic
+        fun fromDisplay(display: String): CandlestickInterval {
+            return vals.first { it.display == display }
+        }
+    }
 
     override fun toString(): String {
         return display

@@ -12,7 +12,7 @@ data class AccountSnapshot(
         val canWithdraw: Boolean,
         val canDeposit: Boolean,
         val updateTime: Long,
-        val balances: MutableList<Asset>
+        val balances: List<Asset>
 ) {
     data class Asset(
             @SerializedName("asset") val symbol: String,

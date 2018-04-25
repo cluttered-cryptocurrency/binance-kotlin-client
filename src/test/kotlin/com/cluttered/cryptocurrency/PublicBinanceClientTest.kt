@@ -1,7 +1,7 @@
 package com.cluttered.cryptocurrency
 
 import com.cluttered.cryptocurrency.TestHelpers.getJson
-import com.cluttered.cryptocurrency.model.marketdata.ChartInterval.MINUTES_5
+import com.cluttered.cryptocurrency.model.marketdata.CandlestickInterval.MINUTES_5
 import com.cluttered.cryptocurrency.model.marketdata.Limit.ONE_HUNDRED
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer

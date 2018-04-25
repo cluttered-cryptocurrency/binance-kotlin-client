@@ -4,6 +4,8 @@ object BinanceConstants {
 
     var BASE_REST_URL: String = "https://rest.binance.com"
 
+    const val BASE_WEB_SOCKET_URL = "wss://stream.binance.com:9443"
+
     /**
      * HTTP Header to be used for API-KEY authentication.
      */
