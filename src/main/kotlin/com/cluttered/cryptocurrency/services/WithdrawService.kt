@@ -58,4 +58,12 @@ interface WithdrawService {
             @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long)
             :Observable<List<DepositAddress>>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("wapi/v3/withdrawFee.html")
+    fun withdrawFee(
+            @Query("asset") asset: String? = null,
+            @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long)
+            :Observable<List<WithdrawFee>>
 }
