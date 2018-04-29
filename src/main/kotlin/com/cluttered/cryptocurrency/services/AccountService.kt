@@ -124,8 +124,6 @@ interface AccountService {
             @Query("timestamp") timestamp: Long = Instant.now().toEpochMilli())
             : Observable<List<Trade>>
 
-    // TODO: userDataStream
-
     /* ######## Buy by Type ######## */
 
     fun buyLimit(symbol: String, timeInForce: TimeInForce, quantity: BigDecimal, price: BigDecimal) = orderLimit(symbol, BUY, timeInForce, quantity, price)
