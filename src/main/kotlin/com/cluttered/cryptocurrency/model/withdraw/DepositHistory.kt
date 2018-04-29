@@ -12,5 +12,5 @@ data class DepositHistory(
             val insertTime: Long,
             val address: String,
             val txId: String,
-            val status: WithdrawStatus)
+            val status: DepositStatus)
 }

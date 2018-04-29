@@ -1,10 +1,9 @@
 package com.cluttered.cryptocurrency.services
 
-import com.cluttered.cryptocurrency.BinanceConstants
 import com.cluttered.cryptocurrency.BinanceConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER
 import com.cluttered.cryptocurrency.model.withdraw.DepositHistory
 import com.cluttered.cryptocurrency.model.withdraw.WithdrawRequest
-import com.cluttered.cryptocurrency.model.withdraw.WithdrawStatus
+import com.cluttered.cryptocurrency.model.withdraw.DepositStatus
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -35,7 +34,7 @@ interface WithdrawService {
     @GET("wapi/v3/depositHistory.html")
     fun depositHistory(
             @Query("asset") asset: String? = null,
-            @Query("status") status: WithdrawStatus? = null,
+            @Query("status") status: DepositStatus? = null,
             @Query("startTime") startTime: Long? = null,
             @Query("endTime") endTime: Long? = null,
             @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
