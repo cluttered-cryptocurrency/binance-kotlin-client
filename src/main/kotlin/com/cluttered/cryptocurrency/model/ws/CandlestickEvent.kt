@@ -14,7 +14,7 @@ data class CandlestickEvent(
             @SerializedName("t") val openTime: Long,
             @SerializedName("T") val closeTime: Long,
             @SerializedName("s") val symbol: String,
-            @SerializedName("i") private val intervalString: String,
+            @SerializedName("i") val interval: CandlestickInterval,
             @SerializedName("f") val firstTradeId: Long,
             @SerializedName("L") val lastTradeId: Long,
             @SerializedName("o") val openPrice: BigDecimal,
@@ -27,7 +27,5 @@ data class CandlestickEvent(
             @SerializedName("q") val quoteAssetVolume: BigDecimal,
             @SerializedName("V") val takerBuyBaseAssetVolume: BigDecimal,
             @SerializedName("Q") val takerBuyQuoteAssetVolume: BigDecimal
-    ) {
-        val interval: CandlestickInterval by lazy { CandlestickInterval.fromDisplay(intervalString) }
-    }
+    )
 }

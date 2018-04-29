@@ -1,9 +1,7 @@
 package com.cluttered.cryptocurrency.services
 
 import com.cluttered.cryptocurrency.BinanceConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER
-import com.cluttered.cryptocurrency.model.withdraw.DepositHistory
-import com.cluttered.cryptocurrency.model.withdraw.WithdrawRequest
-import com.cluttered.cryptocurrency.model.withdraw.DepositStatus
+import com.cluttered.cryptocurrency.model.withdraw.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -40,4 +38,24 @@ interface WithdrawService {
             @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long)
             : Observable<DepositHistory>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("wapi/v3/withdrawHistory.html")
+    fun withdrawHistory(
+            @Query("asset") asset: String? = null,
+            @Query("status") status: WithdrawStatus? = null,
+            @Query("startTime") startTime: Long? = null,
+            @Query("endTime") endTime: Long? = null,
+            @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long)
+            : Observable<WithdrawHistory>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("wapi/v3/depositAddress.html")
+    fun depositAddress(
+            @Query("asset") asset: String? = null,
+            @Query("status") status: Boolean? = null,
+            @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long)
+            :Observable<List<DepositAddress>>
 }
