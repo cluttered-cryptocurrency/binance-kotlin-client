@@ -2,6 +2,8 @@ package com.cluttered.cryptocurrency.ws
 
 import com.cluttered.cryptocurrency.BinanceConstants.BASE_WEB_SOCKET_URL
 import com.cluttered.cryptocurrency.model.marketdata.CandlestickInterval
+import com.cluttered.cryptocurrency.model.marketdata.Depth
+import com.cluttered.cryptocurrency.model.marketdata.DepthLevel
 import com.cluttered.cryptocurrency.model.ws.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -44,6 +46,9 @@ object RxWebSocket {
 
     fun ticker(): PublishSubject<List<TickerEvent>>
             = initializeStream("!ticker@arr")
+
+    fun depth(symbol: String, level: DepthLevel): PublishSubject<Depth>
+            = initializeStream("${symbol.toLowerCase()}@depth$level")
 
     @Suppress("UNCHECKED_CAST")
     private fun <T> initializeStream(streamName: String): PublishSubject<T> {
@@ -116,6 +121,10 @@ object RxWebSocket {
 
                         if (event.stream.contains("@kline")) {
                             return gson.fromJson<CandlestickEvent>(event.data)
+                        }
+
+                        if(event.stream.contains("@depth")) {
+                            return gson.fromJson<Depth>(event.data)
                         }
 
                         return null
