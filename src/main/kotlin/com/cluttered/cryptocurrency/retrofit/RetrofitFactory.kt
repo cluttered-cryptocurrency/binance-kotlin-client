@@ -1,9 +1,6 @@
 package com.cluttered.cryptocurrency.retrofit
 
 import com.cluttered.cryptocurrency.BinanceConstants.BASE_REST_URL
-import com.cluttered.cryptocurrency.model.marketdata.Candlestick
-import com.cluttered.cryptocurrency.model.marketdata.Depth
-import com.cluttered.cryptocurrency.model.withdraw.DepositStatus
 import com.cluttered.cryptocurrency.security.AuthenticationInterceptor
 import com.cluttered.cryptocurrency.serial.*
 import com.google.gson.GsonBuilder
@@ -17,8 +14,7 @@ inline fun <reified T> Retrofit.create(): T = create(T::class.java)
 
 object RetrofitFactory {
 
-    private inline fun <reified T> GsonBuilder.registerTypeAdapter(deserializer: JsonDeserializer<T>): GsonBuilder
-            = registerTypeAdapter(T::class.java, deserializer)
+    private inline fun <reified T> GsonBuilder.registerTypeAdapter(deserializer: JsonDeserializer<T>): GsonBuilder = registerTypeAdapter(T::class.java, deserializer)
 
     @JvmStatic
     fun create(key: String, secret: String): Retrofit {

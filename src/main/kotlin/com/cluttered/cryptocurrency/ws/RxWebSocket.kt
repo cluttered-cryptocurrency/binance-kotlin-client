@@ -30,28 +30,21 @@ object RxWebSocket {
 
     private var observableWebsocket: Observable<RxWebSocketEvent>? = null
 
-    fun aggregateTrade(symbol: String): PublishSubject<AggregateTradeEvent>
-            = initializeStream("${symbol.toLowerCase()}@aggTrade")
+    fun aggregateTrade(symbol: String): PublishSubject<AggregateTradeEvent> = initializeStream("${symbol.toLowerCase()}@aggTrade")
 
-    fun trade(symbol: String): PublishSubject<TradeEvent>
-            = initializeStream("${symbol.toLowerCase()}@trade")
+    fun trade(symbol: String): PublishSubject<TradeEvent> = initializeStream("${symbol.toLowerCase()}@trade")
 
     fun kline(symbol: String, interval: CandlestickInterval) = candlestick(symbol, interval)
 
-    fun candlestick(symbol: String, interval: CandlestickInterval): PublishSubject<CandlestickEvent>
-            = initializeStream("${symbol.toLowerCase()}@kline_$interval")
+    fun candlestick(symbol: String, interval: CandlestickInterval): PublishSubject<CandlestickEvent> = initializeStream("${symbol.toLowerCase()}@kline_$interval")
 
-    fun ticker(symbol: String): PublishSubject<TickerEvent>
-            = initializeStream("${symbol.toLowerCase()}@ticker")
+    fun ticker(symbol: String): PublishSubject<TickerEvent> = initializeStream("${symbol.toLowerCase()}@ticker")
 
-    fun ticker(): PublishSubject<List<TickerEvent>>
-            = initializeStream("!ticker@arr")
+    fun ticker(): PublishSubject<List<TickerEvent>> = initializeStream("!ticker@arr")
 
-    fun depth(symbol: String, level: DepthLevel): PublishSubject<Depth>
-            = initializeStream("${symbol.toLowerCase()}@depth$level")
+    fun depth(symbol: String, level: DepthLevel): PublishSubject<Depth> = initializeStream("${symbol.toLowerCase()}@depth$level")
 
-    fun depthUpdate(symbol: String): PublishSubject<DepthUpdateEvent>
-            = initializeStream("${symbol.toLowerCase()}@depth")
+    fun depthUpdate(symbol: String): PublishSubject<DepthUpdateEvent> = initializeStream("${symbol.toLowerCase()}@depth")
 
     @Suppress("UNCHECKED_CAST")
     private fun <T> initializeStream(streamName: String): PublishSubject<T> {
@@ -61,7 +54,8 @@ object RxWebSocket {
         } as PublishSubject<T>
     }
 
-    @Synchronized fun start(): Observable<RxWebSocketEvent> {
+    @Synchronized
+    fun start(): Observable<RxWebSocketEvent> {
         if (observableWebsocket == null) {
 
             val requestUrl = "$BASE_WEB_SOCKET_URL/stream?streams=${subjectsByStreamName.keys.joinToString("/")}"
@@ -130,7 +124,7 @@ object RxWebSocket {
                             return gson.fromJson<DepthUpdateEvent>(event.data)
                         }
 
-                        if(event.stream.contains("@depth")) {
+                        if (event.stream.contains("@depth")) {
                             return gson.fromJson<Depth>(event.data)
                         }
 
@@ -140,7 +134,7 @@ object RxWebSocket {
             }
         }
 
-        observableWebsocket!!.subscribe {  } // so users aren't required to subscribe but can
+        observableWebsocket!!.subscribe { } // so users aren't required to subscribe but can
 
         return observableWebsocket!!
     }

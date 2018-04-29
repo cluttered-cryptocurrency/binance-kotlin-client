@@ -57,7 +57,7 @@ interface WithdrawService {
             @Query("status") status: Boolean? = null,
             @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long)
-            :Observable<List<DepositAddress>>
+            : Observable<List<DepositAddress>>
 
     @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @GET("wapi/v3/withdrawFee.html")
@@ -65,7 +65,7 @@ interface WithdrawService {
             @Query("asset") asset: String? = null,
             @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long)
-            :Observable<List<WithdrawFee>>
+            : Observable<List<WithdrawFee>>
 
     // TODO: Account Status
     // TODO: System Status

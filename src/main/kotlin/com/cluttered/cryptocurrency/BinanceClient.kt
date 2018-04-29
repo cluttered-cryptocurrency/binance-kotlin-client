@@ -4,7 +4,6 @@ import com.cluttered.cryptocurrency.retrofit.create
 import com.cluttered.cryptocurrency.services.AccountService
 import com.cluttered.cryptocurrency.services.UserDataStreamService
 import com.cluttered.cryptocurrency.services.WithdrawService
-import com.cluttered.cryptocurrency.ws.RxWebSocket
 
 class BinanceClient private constructor(key: String, secret: String) : PublicBinanceClient(key, secret) {
 
