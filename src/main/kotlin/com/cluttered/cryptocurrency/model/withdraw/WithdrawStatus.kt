@@ -21,6 +21,6 @@ enum class WithdrawStatus {
     }
 
     override fun toString(): String {
-        return this.ordinal.toString()
+        return ordinal.toString()
     }
 }

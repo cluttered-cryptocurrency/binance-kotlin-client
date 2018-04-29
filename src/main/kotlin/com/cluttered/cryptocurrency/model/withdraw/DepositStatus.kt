@@ -16,6 +16,6 @@ enum class DepositStatus {
     }
 
     override fun toString(): String {
-        return this.ordinal.toString()
+        return ordinal.toString()
     }
 }
