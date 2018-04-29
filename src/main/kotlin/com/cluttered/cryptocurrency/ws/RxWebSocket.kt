@@ -50,6 +50,9 @@ object RxWebSocket {
     fun depth(symbol: String, level: DepthLevel): PublishSubject<Depth>
             = initializeStream("${symbol.toLowerCase()}@depth$level")
 
+    fun depthUpdate(symbol: String): PublishSubject<DepthUpdateEvent>
+            = initializeStream("${symbol.toLowerCase()}@depth")
+
     @Suppress("UNCHECKED_CAST")
     private fun <T> initializeStream(streamName: String): PublishSubject<T> {
         println("initialize stream: $streamName")
@@ -121,6 +124,10 @@ object RxWebSocket {
 
                         if (event.stream.contains("@kline")) {
                             return gson.fromJson<CandlestickEvent>(event.data)
+                        }
+
+                        if (event.stream.endsWith("@depth")) {
+                            return gson.fromJson<DepthUpdateEvent>(event.data)
                         }
 
                         if(event.stream.contains("@depth")) {
