@@ -66,4 +66,7 @@ interface WithdrawService {
             @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
             @Query("timestamp") timestamp: Long)
             :Observable<List<WithdrawFee>>
+
+    // TODO: Account Status
+    // TODO: System Status
 }
