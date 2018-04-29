@@ -1,10 +1,10 @@
-package com.cluttered.cryptocurrency.ws
+package com.cluttered.cryptocurrency.websocket
 
 import com.cluttered.cryptocurrency.BinanceConstants.BASE_WEB_SOCKET_URL
 import com.cluttered.cryptocurrency.model.marketdata.CandlestickInterval
 import com.cluttered.cryptocurrency.model.marketdata.Depth
 import com.cluttered.cryptocurrency.model.marketdata.DepthLevel
-import com.cluttered.cryptocurrency.model.ws.*
+import com.cluttered.cryptocurrency.model.websocket.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.Observable

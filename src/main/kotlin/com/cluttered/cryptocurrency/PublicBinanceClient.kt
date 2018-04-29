@@ -4,7 +4,7 @@ import com.cluttered.cryptocurrency.retrofit.RetrofitFactory
 import com.cluttered.cryptocurrency.retrofit.create
 import com.cluttered.cryptocurrency.services.GeneralService
 import com.cluttered.cryptocurrency.services.MarketDataService
-import com.cluttered.cryptocurrency.ws.RxWebSocket
+import com.cluttered.cryptocurrency.websocket.RxWebSocket
 import retrofit2.Retrofit
 
 open class PublicBinanceClient protected constructor(key: String = "", secret: String = "") {

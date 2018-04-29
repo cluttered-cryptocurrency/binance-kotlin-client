@@ -1,4 +1,4 @@
-package com.cluttered.cryptocurrency.ws
+package com.cluttered.cryptocurrency.websocket
 
 import okhttp3.Response
 import okhttp3.WebSocket
