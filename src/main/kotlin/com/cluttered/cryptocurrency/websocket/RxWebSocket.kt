@@ -10,11 +10,14 @@ import com.google.gson.JsonObject
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import okhttp3.*
+import org.slf4j.LoggerFactory
 
 object RxWebSocket {
 
     private inline fun <reified T> Gson.fromJson(json: String): T = fromJson(json, T::class.java)
     private inline fun <reified T> Gson.fromJson(json: JsonObject): T = fromJson(json, T::class.java)
+
+    private val LOG = LoggerFactory.getLogger(RxWebSocket::class.java)
 
     private val okHttpClient by lazy {
         OkHttpClient()
@@ -49,7 +52,7 @@ object RxWebSocket {
 
     @Suppress("UNCHECKED_CAST")
     private fun <T> initializeStream(streamName: String): PublishSubject<T> {
-        println("initialize stream: $streamName")
+        LOG.info("initialize stream: $streamName")
         return subjectsByStreamName.getOrPut(streamName) {
             PublishSubject.create<T>() as PublishSubject<Any>
         } as PublishSubject<T>
@@ -60,7 +63,7 @@ object RxWebSocket {
         if (websocket == null && observableWebsocket == null) {
 
             val requestUrl = "$BASE_WEB_SOCKET_URL/stream?streams=${subjectsByStreamName.keys.joinToString("/")}"
-            println("Starting socket: $requestUrl")
+            LOG.info("Starting socket: $requestUrl")
 
             val request = Request.Builder()
                     .url(requestUrl)
@@ -144,7 +147,7 @@ object RxWebSocket {
     fun stop() {
         if (websocket == null || observableWebsocket == null)
             return
-        println("stopping socket")
+        LOG.info("stopping socket")
         websocket!!.close(1000, null)
         okHttpClient.dispatcher().executorService().shutdown()
         subjectsByStreamName.clear()
