@@ -11,7 +11,7 @@ if (!JavaVersion.current().java8Compatible) {
 }
 
 ext {
-    _gradle_version = '4.6'
+    _gradle_version = '4.7'
 
     okhttp_version = '3.10.0'
     retrofit_version = '2.4.0'
