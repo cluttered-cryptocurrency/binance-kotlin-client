@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.cluttered-cryptocurrency'
-version = '0.1.2'
+version = '1.0.0'
 
 if (!JavaVersion.current().java8Compatible) {
     throw new IllegalStateException("Must be built with Java 8 or higher")

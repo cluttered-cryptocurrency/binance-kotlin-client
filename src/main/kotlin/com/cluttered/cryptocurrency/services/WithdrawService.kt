@@ -67,6 +67,14 @@ interface WithdrawService {
             @Query("timestamp") timestamp: Long)
             : Observable<List<WithdrawFee>>
 
-    // TODO: Account Status
-    // TODO: System Status
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("wapi/v3/accountStatus.html")
+    fun accountStatus(
+            @Query("recvWindow") recvWindow: Long = ONE_MINUTE_IN_MILLIS,
+            @Query("timestamp") timestamp: Long)
+            : Observable<AccountStatus>
+
+    @Headers(ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("wapi/v3/systemStatus.html")
+    fun systemStatus() : Observable<SystemStatus>
 }
