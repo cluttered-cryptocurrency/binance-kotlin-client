@@ -28,6 +28,7 @@ object RxWebSocket {
         HashMap<String, PublishSubject<Any>>()
     }
 
+    private var websocket: WebSocket? = null
     private var observableWebsocket: Observable<RxWebSocketEvent>? = null
 
     fun aggregateTrade(symbol: String): PublishSubject<AggregateTradeEvent> = initializeStream("${symbol.toLowerCase()}@aggTrade")
@@ -56,7 +57,7 @@ object RxWebSocket {
 
     @Synchronized
     fun start(): Observable<RxWebSocketEvent> {
-        if (observableWebsocket == null) {
+        if (websocket == null && observableWebsocket == null) {
 
             val requestUrl = "$BASE_WEB_SOCKET_URL/stream?streams=${subjectsByStreamName.keys.joinToString("/")}"
             println("Starting socket: $requestUrl")
@@ -66,7 +67,7 @@ object RxWebSocket {
                     .build()
 
             observableWebsocket = Observable.create {
-                okHttpClient.newWebSocket(request, object : WebSocketListener() {
+                websocket = okHttpClient.newWebSocket(request, object : WebSocketListener() {
                     override fun onOpen(webSocket: WebSocket, response: Response) {
                         it.onNext(RxWebSocketEvent.OpenEvent(webSocket))
                     }
@@ -137,5 +138,17 @@ object RxWebSocket {
         observableWebsocket!!.subscribe { } // so users aren't required to subscribe but can
 
         return observableWebsocket!!
+    }
+
+    @Synchronized
+    fun stop() {
+        if (websocket == null || observableWebsocket == null)
+            return
+        println("stopping socket")
+        websocket!!.close(1000, null)
+        okHttpClient.dispatcher().executorService().shutdown()
+        subjectsByStreamName.clear()
+        websocket = null
+        observableWebsocket = null
     }
 }
