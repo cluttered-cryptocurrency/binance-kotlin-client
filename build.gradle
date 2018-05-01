@@ -1,8 +1,21 @@
+buildscript {
+    ext.kotlin_version = '1.2.41'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.41'
     id 'jacoco'
     id 'maven' // for jitPack
 }
+
+apply plugin: 'kotlin'
 
 group = 'com.cluttered-cryptocurrency'
 version = '1.2.0'
@@ -29,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
