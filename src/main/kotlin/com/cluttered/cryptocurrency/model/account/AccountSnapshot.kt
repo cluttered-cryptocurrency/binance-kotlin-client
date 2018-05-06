@@ -1,6 +1,5 @@
 package com.cluttered.cryptocurrency.model.account
 
-import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
 data class AccountSnapshot(
@@ -15,7 +14,7 @@ data class AccountSnapshot(
         val balances: List<Asset>
 ) {
     data class Asset(
-            @SerializedName("asset") val symbol: String,
+            val asset: String,
             val free: BigDecimal,
             val locked: BigDecimal
     )
