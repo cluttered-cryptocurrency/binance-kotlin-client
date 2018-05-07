@@ -18,7 +18,7 @@ plugins {
 apply plugin: 'kotlin'
 
 group = 'com.cluttered-cryptocurrency'
-version = '2.0.1'
+version = '2.0.2'
 
 if (!JavaVersion.current().java8Compatible) {
     throw new IllegalStateException("Must be built with Java 8 or higher")
