@@ -21,7 +21,9 @@ class AuthenticationInterceptor(private val apiKey: String, secret: String) : In
 
         val isApiKeyRequired = original.header(ENDPOINT_SECURITY_TYPE_APIKEY) != null
         val isSignatureRequired = original.header(ENDPOINT_SECURITY_TYPE_SIGNED) != null
-        newRequestBuilder.removeHeader(ENDPOINT_SECURITY_TYPE_SIGNED)
+
+        newRequestBuilder
+                .removeHeader(ENDPOINT_SECURITY_TYPE_SIGNED)
                 .removeHeader(ENDPOINT_SECURITY_TYPE_SIGNED)
 
         // Endpoint requires sending a valid API-KEY

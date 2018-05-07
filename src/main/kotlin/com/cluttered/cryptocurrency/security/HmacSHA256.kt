@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException
 import java.security.SignatureException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import javax.xml.bind.DatatypeConverter
 
 class HmacSHA256(secret: String) {
 
@@ -21,7 +20,10 @@ class HmacSHA256(secret: String) {
 
     @Throws(SignatureException::class, NoSuchAlgorithmException::class, InvalidKeyException::class)
     fun encode(message: String): String {
-        val encodedArray = mac.doFinal(message.toByteArray())
-        return DatatypeConverter.printHexBinary(encodedArray)
+        return mac.doFinal(message.toByteArray())
+                .map { String.format("%02x", it) }
+                .reduce { acc, str -> acc + str }
+//        val encodedArray = mac.doFinal(message.toByteArray())
+//        return DatatypeConverter.printHexBinary(encodedArray)
     }
 }
